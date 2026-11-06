@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
 <title>Капитал — P2P</title>
 
 <style>
@@ -18,105 +19,161 @@
   --red:#ff6262;
 }
 *{box-sizing:border-box}
-body{
+html,body{
+  width:100%;
+  height:100%;
+  height:100dvh;
   margin:0;
-  padding:env(safe-area-inset-top) 16px 125px;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+body{
   background:var(--bg);
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  max-width:900px;
-  margin-inline:auto;
 }
 button,input,select{font:inherit}
 button{cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+
+.app{
+  width:100%;
+  max-width:900px;
+  height:100%;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  padding-top:env(safe-area-inset-top);
+}
+
 header{
-  min-height:82px;
+  min-height:72px;
+  flex-shrink:0;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:12px;
+  padding:0 16px;
 }
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
-  font-size:25px;
-  font-weight:750;
+  gap:11px;
   min-width:0;
-}
-.wallet{font-size:27px;color:#aaa}
-.header-actions{display:flex;align-items:center;gap:10px}
-.round{
-  width:53px;height:53px;
-  border-radius:50%;
-  background:#202020;
-  border:1px solid #353535;
-  color:white;
   font-size:23px;
+  font-weight:750;
 }
-.periods{
-  display:flex;
-  gap:14px;
-  align-items:center;
-  overflow-x:auto;
+.brand-name{
+  overflow:hidden;
   white-space:nowrap;
-  margin:18px 0 25px;
-  padding-bottom:8px;
-  scrollbar-width:none;
+  text-overflow:ellipsis;
 }
-.periods::-webkit-scrollbar{display:none}
-.periods button{
-  border:0;
-  background:none;
-  color:#999;
-  font-size:15px;
-  font-weight:700;
-  padding:12px 0;
+.wallet{
+  width:39px;
+  height:39px;
+  border-radius:13px;
+  background:#252525;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  flex-shrink:0;
+  overflow:hidden;
 }
-.periods .choose{
+.wallet img{width:100%;height:100%;object-fit:cover}
+.header-actions{display:flex;align-items:center;gap:8px}
+.header-button{
+  min-width:43px;
+  height:43px;
+  padding:0 12px;
+  border:1px solid #343434;
+  border-radius:15px;
   background:#202020;
-  border-radius:40px;
-  padding:14px 20px;
-  color:white;
+  color:#eee;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font-size:14px;
+  font-weight:650;
 }
+
+.periods{
+  flex-shrink:0;
+  display:flex;
+  gap:9px;
+  align-items:center;
+  padding:8px 16px 13px;
+}
+.month-button,.all-button,.report-card-button{
+  border:1px solid #343434;
+  background:#202020;
+  color:#ddd;
+  border-radius:13px;
+  padding:11px 14px;
+  font-size:13px;
+  font-weight:700;
+}
+.month-button{flex:1;text-align:left}
+.month-button .arrow{float:right;color:var(--yellow)}
+.all-button.active,.report-card-button.active{
+  background:var(--yellow);
+  border-color:var(--yellow);
+  color:#111;
+}
+
+main{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  padding:5px 16px 25px;
+  scrollbar-width:thin;
+  scrollbar-color:#333 transparent;
+}
+main::-webkit-scrollbar{width:4px}
+main::-webkit-scrollbar-thumb{background:#333;border-radius:5px}
+
 .summary{
   background:var(--panel);
-  border-radius:30px;
-  padding:22px 20px;
-  margin-bottom:30px;
+  border-radius:25px;
+  padding:19px 16px;
+  margin-bottom:26px;
 }
 .summary-grid{display:grid;grid-template-columns:1fr 1fr}
 .metric{
-  padding:9px 8px 20px;
+  padding:9px 8px 17px;
   min-width:0;
   overflow:hidden;
 }
 .metric:nth-child(odd){
   border-right:1px solid var(--line);
   text-align:right;
-  padding-right:15px;
+  padding-right:13px;
 }
 .metric:nth-child(even){
   text-align:right;
-  padding-left:15px;
+  padding-left:13px;
 }
 .metric:nth-child(n+3){
   border-top:1px solid var(--line);
-  padding-top:20px;
+  padding-top:17px;
   padding-bottom:3px;
 }
 .metric .name{
   color:#c9c9c9;
-  font-size:14px;
+  font-size:13px;
   font-weight:650;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
 .metric .value{
-  font-size:clamp(18px,5vw,27px);
+  font-size:clamp(17px,4.8vw,25px);
   font-weight:750;
-  margin-top:12px;
+  margin-top:10px;
   white-space:nowrap;
   font-variant-numeric:tabular-nums;
 }
@@ -125,42 +182,42 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:15px;
-  font-size:16px;
+  margin-bottom:13px;
+  font-size:15px;
   font-weight:700;
 }
 .muted{color:var(--muted)}
 .date-label{
   color:#888;
-  font-size:14px;
+  font-size:13px;
   font-weight:650;
-  margin:26px 0 9px;
+  margin:24px 0 8px;
   text-transform:capitalize;
 }
 .deal{
   display:flex;
   align-items:center;
-  gap:9px;
-  min-height:72px;
+  gap:8px;
+  min-height:70px;
   border-bottom:1px solid var(--line);
 }
 .deal-icon{
   width:34px;
   text-align:center;
-  font-size:22px;
+  font-size:21px;
   flex-shrink:0;
 }
 .deal-main{flex:1;min-width:0}
-.deal-title{font-size:16px;font-weight:650}
+.deal-title{font-size:14px;font-weight:650}
 .deal-sub{
-  font-size:12px;
+  font-size:11px;
   color:#888;
   margin-top:5px;
   line-height:1.5;
   overflow-wrap:anywhere;
 }
 .deal-amount{
-  font-size:14px;
+  font-size:12px;
   font-weight:700;
   white-space:nowrap;
 }
@@ -169,23 +226,24 @@ header{
 .empty{
   color:#777;
   text-align:center;
-  padding:42px 10px;
+  padding:35px 10px;
   line-height:1.6;
 }
 .view{display:none}
 .view.active{display:block}
+
 .panel{
   background:var(--panel);
-  border-radius:25px;
-  padding:20px;
-  margin:17px 0;
+  border-radius:23px;
+  padding:18px;
+  margin:12px 0;
 }
-h2{font-size:21px;margin:0 0 17px}
-h3{font-size:17px;margin:0 0 13px}
+h2{font-size:19px;margin:0 0 15px}
+h3{font-size:15px;margin:0 0 12px}
 label{
   display:block;
   color:#aaa;
-  font-size:13px;
+  font-size:12px;
   margin:13px 0 7px;
 }
 input,select{
@@ -193,91 +251,103 @@ input,select{
   background:#080808;
   color:white;
   border:1px solid #3a3a3a;
-  border-radius:13px;
-  padding:14px 12px;
+  border-radius:12px;
+  padding:13px 11px;
   outline:none;
+  min-width:0;
 }
 input:focus,select:focus{border-color:var(--yellow)}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .primary,.secondary,.danger{
   border:0;
-  border-radius:14px;
-  padding:14px 18px;
+  border-radius:13px;
+  padding:13px 16px;
   font-weight:750;
+  font-size:13px;
 }
 .primary{background:var(--yellow);color:#111}
 .secondary{background:#303030;color:white}
 .danger{background:#482323;color:#ffb0b0}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.small{font-size:12px;color:#888;line-height:1.5}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.small{font-size:11px;color:#888;line-height:1.5}
 .statline{
   display:flex;
   align-items:center;
   justify-content:space-between;
   border-bottom:1px solid var(--line);
-  padding:13px 0;
+  padding:12px 0;
   gap:10px;
   color:#bbb;
+  font-size:13px;
 }
 .statline b{
   color:white;
   text-align:right;
   font-variant-numeric:tabular-nums;
+  font-size:13px;
 }
 .bottom{
-  position:fixed;
-  left:0;right:0;bottom:0;
+  flex-shrink:0;
   z-index:10;
-  padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  padding:8px 12px calc(9px + env(safe-area-inset-bottom));
   display:flex;
   justify-content:center;
-  gap:10px;
-  background:linear-gradient(transparent,#000 18%);
+  gap:9px;
+  background:#080808;
+  border-top:1px solid #202020;
 }
 .nav{
-  height:88px;
+  height:67px;
   max-width:650px;
   flex:1;
-  background:#202020;
-  border:2px solid #343434;
-  border-radius:60px;
+  background:#1c1c1c;
+  border:1px solid #343434;
+  border-radius:22px;
   display:flex;
   align-items:center;
-  padding:7px;
-  gap:2px;
+  padding:5px;
+  gap:3px;
 }
 .nav button{
   flex:1;
   height:100%;
   border:0;
   background:transparent;
-  color:white;
-  border-radius:50px;
-  font-size:11px;
+  color:#999;
+  border-radius:16px;
+  font-size:10px;
   font-weight:650;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:5px;
+  gap:4px;
 }
-.nav button .ico{font-size:24px;line-height:1}
-.nav button.active{background:#080808;color:var(--yellow)}
+.nav button .ico{
+  font-size:20px;
+  line-height:1;
+  font-weight:400;
+}
+.nav button.active{
+  background:#303030;
+  color:var(--yellow);
+}
 .add{
-  width:88px;
-  height:88px;
-  border-radius:50%;
+  width:67px;
+  height:67px;
+  border-radius:22px;
   background:var(--yellow);
-  border:7px solid #252525;
+  border:0;
   color:#000;
-  font-size:49px;
+  font-size:37px;
   line-height:1;
   flex-shrink:0;
 }
+
 .modal{
   position:fixed;
   inset:0;
-  background:#000b;
+  background:#000c;
   z-index:30;
   display:none;
   align-items:flex-end;
@@ -287,11 +357,12 @@ input:focus,select:focus{border-color:var(--yellow)}
 .sheet{
   width:100%;
   max-width:650px;
-  max-height:91vh;
-  overflow:auto;
+  max-height:90dvh;
+  overflow-y:auto;
+  overscroll-behavior:contain;
   background:#191919;
-  border-radius:28px 28px 0 0;
-  padding:24px 18px calc(28px + env(safe-area-inset-bottom));
+  border-radius:26px 26px 0 0;
+  padding:22px 17px calc(25px + env(safe-area-inset-bottom));
 }
 .sheet-head{
   display:flex;
@@ -303,16 +374,16 @@ input:focus,select:focus{border-color:var(--yellow)}
   border:0;
   background:#303030;
   color:white;
-  border-radius:50%;
-  width:38px;
-  height:38px;
+  border-radius:12px;
+  width:36px;
+  height:36px;
   font-size:20px;
   flex-shrink:0;
 }
 .switch{
   display:flex;
   background:#080808;
-  border-radius:14px;
+  border-radius:13px;
   padding:4px;
   margin:12px 0;
 }
@@ -321,28 +392,28 @@ input:focus,select:focus{border-color:var(--yellow)}
   border:0;
   background:none;
   color:#aaa;
-  padding:11px;
-  border-radius:11px;
+  padding:10px;
+  border-radius:10px;
 }
 .switch button.active{background:#333;color:var(--yellow)}
 
 /* Диаграммы */
 .chart-block{
   background:#202020;
-  border-radius:20px;
-  padding:16px;
-  margin-top:15px;
+  border-radius:18px;
+  padding:14px;
+  margin-top:13px;
 }
 .chart-title{
-  font-size:15px;
-  font-weight:700;
-  margin-bottom:5px;
+  font-size:14px;
+  font-weight:750;
+  margin-bottom:4px;
 }
 .chart-donut{
-  width:174px;
-  height:174px;
+  width:160px;
+  height:160px;
   border-radius:50%;
-  margin:20px auto;
+  margin:18px auto;
   position:relative;
   display:flex;
   align-items:center;
@@ -361,35 +432,31 @@ input:focus,select:focus{border-color:var(--yellow)}
   position:relative;
   z-index:1;
   text-align:center;
-  font-size:16px;
+  font-size:15px;
   font-weight:800;
   line-height:1.4;
 }
 .chart-center small{
   display:block;
   color:#999;
-  font-size:11px;
+  font-size:10px;
   font-weight:500;
 }
-.legend{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
+.legend{display:flex;flex-direction:column;gap:11px}
 .legend-row{
   display:flex;
   align-items:center;
   gap:9px;
-  font-size:13px;
+  font-size:12px;
 }
 .legend-dot{
-  width:12px;
-  height:12px;
+  width:11px;
+  height:11px;
   border-radius:4px;
   flex-shrink:0;
 }
 .legend-info{flex:1;min-width:0}
-.legend-info b{color:white}
+.legend-info b{color:white;font-size:12px}
 .legend-percent{
   font-weight:750;
   color:white;
@@ -399,30 +466,30 @@ input:focus,select:focus{border-color:var(--yellow)}
   display:flex;
   align-items:center;
   gap:10px;
-  font-size:17px;
+  font-size:16px;
   font-weight:750;
   margin-bottom:10px;
 }
 .card-sticker{
-  width:43px;
-  height:43px;
-  border-radius:14px;
+  width:41px;
+  height:41px;
+  border-radius:13px;
   background:#303030;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:23px;
+  font-size:22px;
   flex-shrink:0;
 }
 .avatar{
-  width:48px;
-  height:48px;
-  border-radius:50%;
+  width:54px;
+  height:54px;
+  border-radius:17px;
   background:#303030;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:24px;
+  font-size:27px;
   overflow:hidden;
   flex-shrink:0;
 }
@@ -430,84 +497,126 @@ input:focus,select:focus{border-color:var(--yellow)}
 .wallet-profile{
   display:flex;
   align-items:center;
-  gap:14px;
-  margin-bottom:18px;
+  gap:13px;
+  margin-bottom:16px;
 }
 .card-edit{
   background:#202020;
-  border-radius:17px;
-  padding:14px;
-  margin:12px 0;
+  border-radius:16px;
+  padding:13px;
+  margin:11px 0;
 }
 .card-edit-top{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:9px;
 }
 .card-edit-top input{flex:1;min-width:0}
 .emoji-select{
-  width:65px;
-  font-size:22px;
+  width:66px;
+  font-size:21px;
   text-align:center;
-  padding:10px 5px;
+  padding:10px 4px;
+}
+.avatar-choices{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+.avatar-choice{
+  height:48px;
+  border:1px solid #393939;
+  background:#242424;
+  border-radius:13px;
+  font-size:23px;
+}
+.avatar-choice.active{
+  border:2px solid var(--yellow);
+  background:#393024;
+}
+.report-filter{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:2px 0 12px;
+  scrollbar-width:none;
+}
+.report-filter::-webkit-scrollbar{display:none}
+.report-card-button{
+  white-space:nowrap;
+  padding:10px 13px;
+}
+.notice{
+  background:#2b2418;
+  color:#e7c78e;
+  border-radius:12px;
+  padding:11px;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:12px;
 }
 @media(max-width:390px){
-  body{padding-left:12px;padding-right:12px}
-  .summary{padding:18px 12px}
-  .metric:nth-child(odd){padding-right:9px}
-  .metric:nth-child(even){padding-left:9px}
-  .metric .name{font-size:12px}
-  .metric .value{font-size:clamp(17px,4.7vw,22px)}
-  .nav{height:80px}
-  .nav button{font-size:10px}
-  .add{width:80px;height:80px}
-  .deal{gap:6px}
-  .deal-amount{font-size:12px}
-  .periods{gap:12px}
+  header{min-height:65px;padding-left:12px;padding-right:12px}
+  .brand{font-size:20px}
+  main{padding-left:12px;padding-right:12px}
+  .periods{padding-left:12px;padding-right:12px}
+  .summary{padding:16px 10px}
+  .metric:nth-child(odd){padding-right:8px}
+  .metric:nth-child(even){padding-left:8px}
+  .metric .name{font-size:11px}
+  .metric .value{font-size:clamp(16px,4.5vw,21px)}
+  .bottom{padding-left:8px;padding-right:8px;gap:7px}
+  .nav{height:62px}
+  .nav button{font-size:9px}
+  .nav button .ico{font-size:18px}
+  .add{width:62px;height:62px;border-radius:19px;font-size:34px}
+  .deal{gap:5px}
+  .deal-amount{font-size:11px}
+  .avatar-choices{grid-template-columns:repeat(5,1fr)}
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
 <header>
   <div class="brand">
     <span class="wallet" id="headerAvatar">▣</span>
-    <span id="walletTitle">Капитал</span>
+    <span class="brand-name" id="walletTitle">Капитал</span>
   </div>
   <div class="header-actions">
-    <button class="round" onclick="openSettings()">⚙</button>
+    <button class="header-button" onclick="showSettings()" aria-label="Настройки">
+      <span>⚙</span><span>Настройки</span>
+    </button>
   </div>
 </header>
 
-<div class="periods">
-  <button class="choose" id="periodButton" onclick="openPeriodPicker()">
-    Все месяцы　<span class="accent">⌄</span>
+<div class="periods" id="operationsPeriods">
+  <button class="month-button" id="periodButton" onclick="openPeriodPicker()">
+    Все месяцы <span class="arrow">⌄</span>
   </button>
-  <button onclick="setPeriod('all')" id="allPeriod">Всё время</button>
+  <button class="all-button" id="allPeriod" onclick="setPeriod('all')">Всё время</button>
 </div>
 
-<main>
+<main id="mainContent">
 
 <section class="view active" id="view-operations">
-
   <div class="summary">
     <div class="summary-grid">
       <div class="metric">
         <div class="name">Покупки USDT</div>
         <div class="value" id="sumBought">0 USDT</div>
       </div>
-
       <div class="metric">
         <div class="name">Продажи USDT</div>
         <div class="value" id="sumSold">0 USDT</div>
       </div>
-
       <div class="metric">
-        <div class="name">Прибыль за месяц</div>
+        <div class="name">Прибыль за период</div>
         <div class="value" id="sumProfit">0 ₽</div>
       </div>
-
       <div class="metric">
         <div class="name">Остаток USDT</div>
         <div class="value" id="sumBalance">0 USDT</div>
@@ -519,150 +628,97 @@ input:focus,select:focus{border-color:var(--yellow)}
     <span class="muted">История операций</span>
     <span class="muted" id="historyCount">0 операций</span>
   </div>
-
   <div id="dealList"></div>
 </section>
 
 <section class="view" id="view-report">
-
   <div class="panel">
-    <h2>Общий отчёт</h2>
-
-    <div class="statline">
-      <span>Всего куплено</span>
-      <b id="rBuyUsdt">0 USDT</b>
-    </div>
-
-    <div class="statline">
-      <span>Всего продано</span>
-      <b id="rSellUsdt">0 USDT</b>
-    </div>
-
-    <div class="statline">
-      <span>Сумма покупок</span>
-      <b id="rBuys">0 ₽</b>
-    </div>
-
-    <div class="statline">
-      <span>Сумма продаж</span>
-      <b id="rSells">0 ₽</b>
-    </div>
-
-    <div class="statline">
-      <span>Прибыль</span>
-      <b id="rProfit">0 ₽</b>
-    </div>
-
-    <div class="statline">
-      <span>Остаток USDT</span>
-      <b id="rBalance">0 USDT</b>
-    </div>
-
-    <div class="statline">
-      <span>Средняя себестоимость</span>
-      <b id="rAvgCost">—</b>
-    </div>
+    <h2>Отчёт по картам</h2>
+    <p class="small">Выбери карту, чтобы посмотреть её доходы, расходы и грев. «Все карты» показывает общую статистику.</p>
+    <div class="report-filter" id="reportCardFilter"></div>
   </div>
 
   <div class="panel">
-    <h2>Покупки по картам</h2>
-    <p class="small">
-      Доля каждой карты от общего количества купленных USDT.
-    </p>
-    <div id="overallCardChart"></div>
+    <h2 id="reportTitle">Общая статистика</h2>
+    <div class="statline"><span>Куплено USDT</span><b id="rBuyUsdt">0 USDT</b></div>
+    <div class="statline"><span>Продано USDT</span><b id="rSellUsdt">0 USDT</b></div>
+    <div class="statline"><span>Расходы на покупки</span><b id="rBuys">0 ₽</b></div>
+    <div class="statline"><span>Доходы от продаж</span><b id="rSells">0 ₽</b></div>
+    <div class="statline"><span>Прибыль</span><b id="rProfit">0 ₽</b></div>
+    <div class="statline"><span>Остаток USDT</span><b id="rBalance">0 USDT</b></div>
+    <div class="statline"><span>Средняя себестоимость остатка</span><b id="rAvgCost">—</b></div>
   </div>
 
   <div class="panel">
-    <h2>Отчёт по каждой карте</h2>
-    <div id="individualCardCharts"></div>
+    <h2>Распределение операций</h2>
+    <p class="small">Доли рассчитаны по суммам в рублях. Доходы — продажи, расходы — покупки переводом, грев — покупки типа «Грев».</p>
+    <div id="reportDonuts"></div>
   </div>
-
 </section>
 
 <section class="view" id="view-stock">
-
   <div class="panel">
     <h2>Мои остатки</h2>
-
-    <div class="statline">
-      <span>Всего USDT</span>
-      <b id="stockTotal">0 USDT</b>
-    </div>
-
-    <div class="statline">
-      <span>Средний курс покупки</span>
-      <b id="stockAvg">—</b>
-    </div>
-
-    <div class="statline">
-      <span>Себестоимость остатка</span>
-      <b id="stockCost">0 ₽</b>
-    </div>
+    <div class="statline"><span>Всего USDT</span><b id="stockTotal">0 USDT</b></div>
+    <div class="statline"><span>Средний курс покупки</span><b id="stockAvg">—</b></div>
+    <div class="statline"><span>Себестоимость остатка</span><b id="stockCost">0 ₽</b></div>
   </div>
-
   <div class="panel">
     <h3>Что осталось</h3>
     <div id="lotsList"></div>
   </div>
-
 </section>
 
 <section class="view" id="view-settings">
-
   <div class="panel">
     <h2>Мой кошелёк</h2>
-
     <div class="wallet-profile">
       <div class="avatar" id="settingsAvatar">▣</div>
       <div style="flex:1;min-width:0">
         <b id="settingsWalletName">Капитал</b>
-        <div class="small">Название и аватар кошелька</div>
+        <div class="small">Название и оформление кошелька</div>
       </div>
     </div>
 
     <label>Название кошелька</label>
     <input id="walletNameInput" maxlength="30" placeholder="Например, Мой капитал">
 
-    <label>Аватар кошелька</label>
+    <label>Встроенные аватары</label>
+    <div class="avatar-choices" id="avatarChoices"></div>
+
+    <label>Или загрузить своё изображение</label>
     <input id="avatarFile" type="file" accept="image/*">
+    <p class="small">Большие изображения автоматически уменьшаются перед сохранением. Ограничение по размеру исходного файла не устанавливается.</p>
 
     <div class="actions">
-      <button class="primary" onclick="saveWalletSettings()">Сохранить</button>
+      <button class="primary" onclick="saveWalletSettings()">Сохранить профиль</button>
       <button class="secondary" onclick="resetAvatar()">Убрать аватар</button>
     </div>
   </div>
 
   <div class="panel">
     <h2>Мои карты</h2>
-    <p class="small">
-      Здесь можно изменить название карты или её значок.
-      Старые операции сохранятся и обновятся вместе с названием.
-    </p>
+    <p class="small">Здесь отображаются все добавленные карты. Можно изменить название, значок или удалить карту. История старых операций при переименовании обновится автоматически.</p>
 
     <div id="cardsList"></div>
 
     <h3 style="margin-top:22px">Добавить карту</h3>
-
     <div class="row2">
       <div>
         <label>Название</label>
-        <input id="newCard" placeholder="Название карты">
+        <input id="newCard" maxlength="30" placeholder="Название карты">
       </div>
       <div>
         <label>Значок</label>
         <select id="newCardEmoji" class="emoji-select">
-          <option>💳</option>
-          <option>🟢</option>
-          <option>🟡</option>
-          <option>🔵</option>
-          <option>🟣</option>
-          <option>⭐</option>
-          <option>💎</option>
-          <option>🏦</option>
+          <option>💳</option><option>🟢</option><option>🟡</option>
+          <option>🔵</option><option>🟣</option><option>⭐</option>
+          <option>💎</option><option>🏦</option><option>🦊</option>
+          <option>🌙</option><option>🔥</option><option>⚡</option>
+          <option>🐼</option><option>🌸</option><option>🚀</option>
         </select>
       </div>
     </div>
-
     <div class="actions">
       <button class="primary" onclick="addCard()">Добавить карту</button>
     </div>
@@ -670,10 +726,7 @@ input:focus,select:focus{border-color:var(--yellow)}
 
   <div class="panel">
     <h2>Резервная копия</h2>
-    <p class="small">
-      Сохрани копию данных, чтобы не потерять операции при смене устройства или браузера.
-    </p>
-
+    <p class="small">Экспортируй данные в файл, чтобы сохранить операции и настройки. Для восстановления выбери ранее сохранённый файл.</p>
     <div class="actions">
       <button class="secondary" onclick="exportData()">Экспорт данных</button>
       <button class="secondary" onclick="document.getElementById('importFile').click()">Импорт данных</button>
@@ -683,38 +736,37 @@ input:focus,select:focus{border-color:var(--yellow)}
 
   <div class="panel">
     <h2>Опасная зона</h2>
-    <p class="small">Удаление всех операций и настроек кошелька.</p>
+    <p class="small">Удаление всех операций, карт и настроек кошелька. Это действие нельзя отменить.</p>
     <div class="actions">
       <button class="danger" onclick="clearAll()">Удалить все данные</button>
     </div>
   </div>
-
 </section>
+
 </main>
 
 <div class="bottom">
   <nav class="nav">
-    <button class="active" onclick="showView('operations',this)">
-      <span class="ico">☷</span>Операции
+    <button class="active" data-view="operations" onclick="showView('operations',this)">
+      <span class="ico">⌂</span>Операции
     </button>
-    <button onclick="showView('report',this)">
-      <span class="ico">◕</span>Отчёт
+    <button data-view="report" onclick="showView('report',this)">
+      <span class="ico">◉</span>Отчёт
     </button>
-    <button onclick="showView('stock',this)">
+    <button data-view="stock" onclick="showView('stock',this)">
       <span class="ico">▤</span>Остатки
     </button>
-    <button onclick="showView('settings',this)">
-      <span class="ico">⚙</span>Настройки
+    <button data-view="settings" onclick="showView('settings',this)">
+      <span class="ico">☰</span>Настройки
     </button>
   </nav>
-
-  <button class="add" onclick="openDeal()">＋</button>
+  <button class="add" id="addButton" onclick="openDeal()">＋</button>
+</div>
 </div>
 
-<!-- Окно операции -->
+<!-- Операция -->
 <div class="modal" id="dealModal" onclick="if(event.target===this)closeDeal()">
   <div class="sheet">
-
     <div class="sheet-head">
       <h2 id="formTitle">Новая операция</h2>
       <button class="close" onclick="closeDeal()">×</button>
@@ -732,32 +784,26 @@ input:focus,select:focus{border-color:var(--yellow)}
         <option value="send">Отправка перевода</option>
         <option value="receive">Получение перевода</option>
       </select>
-
-      <label>Карта</label>
-      <select id="dealCard"></select>
     </div>
 
+    <label>Карта</label>
+    <select id="dealCard"></select>
+
     <label>Курс (₽ за 1 USDT)</label>
-    <input id="rate" type="text" inputmode="decimal"
-      placeholder="Например, 92.50" oninput="recalc('rate')">
+    <input id="rate" type="text" inputmode="decimal" placeholder="Например, 92.50" oninput="recalc('rate')">
 
     <div class="row2">
       <div>
         <label>Сумма в рублях (₽)</label>
-        <input id="rub" type="text" inputmode="decimal"
-          placeholder="0.00" oninput="recalc('rub')">
+        <input id="rub" type="text" inputmode="decimal" placeholder="0.00" oninput="recalc('rub')">
       </div>
-
       <div>
         <label>Сумма в USDT</label>
-        <input id="usdt" type="text" inputmode="decimal"
-          placeholder="0.00" oninput="recalc('usdt')">
+        <input id="usdt" type="text" inputmode="decimal" placeholder="0.00" oninput="recalc('usdt')">
       </div>
     </div>
 
-    <p class="small" id="calcHint">
-      Сначала введи сумму и курс. Второе поле рассчитается автоматически.
-    </p>
+    <p class="small" id="calcHint">Введи сумму и курс. Второе поле рассчитается автоматически.</p>
 
     <label>Дата и время</label>
     <input id="dealDate" type="datetime-local">
@@ -766,11 +812,8 @@ input:focus,select:focus{border-color:var(--yellow)}
     <input id="comment" type="text" placeholder="Комментарий к операции">
 
     <div class="actions">
-      <button class="primary" style="flex:1" onclick="saveDeal()">
-        Сохранить операцию
-      </button>
+      <button class="primary" style="flex:1" onclick="saveDeal()">Сохранить операцию</button>
     </div>
-
     <p class="small" id="formError" style="color:#ff8585"></p>
   </div>
 </div>
@@ -782,30 +825,18 @@ input:focus,select:focus{border-color:var(--yellow)}
       <h2>Выбрать месяц</h2>
       <button class="close" onclick="closePeriodPicker()">×</button>
     </div>
-
     <label>Месяц</label>
     <select id="monthSelect"></select>
-
     <div class="actions">
       <button class="primary" style="flex:1" onclick="applyMonth()">Применить</button>
-      <button class="secondary" onclick="setPeriod('all');closePeriodPicker()">Всё время</button>
+      <button class="secondary" onclick="setPeriod('all');closePeriodPicker()">Все месяцы</button>
     </div>
-  </div>
-</div>
-
-<!-- Настройки дополнительных действий -->
-<div class="modal" id="settingsModal" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="sheet">
-    <div class="sheet-head">
-      <h2>Настройки</h2>
-      <button class="close" onclick="this.closest('.modal').classList.remove('show')">×</button>
-    </div>
-    <p class="small">Управление кошельком, картами и резервными копиями находится во вкладке «Настройки» в нижнем меню.</p>
-    <button class="primary" style="width:100%;margin-top:15px" onclick="this.closest('.modal').classList.remove('show');showSettings()">Открыть настройки</button>
   </div>
 </div>
 
 <script>
+'use strict';
+
 const KEY='p2p_capital_ledger_v1';
 
 const defaults={
@@ -813,6 +844,7 @@ const defaults={
   deals:[],
   walletName:'Капитал',
   walletAvatar:'',
+  avatarChoice:'▣',
   cardEmojis:{
     'Ozon':'🟣',
     'Т-Банк':'🟡',
@@ -821,34 +853,71 @@ const defaults={
   }
 };
 
+const builtInAvatars=['▣','💎','🟡','🦊','🐼','🚀','🌙','🔥','⭐','🐺','🌸','⚡'];
+
 let data=load();
 let mode='buy';
 let period='all';
 let selectedMonth='';
 let editId=null;
 let lastEdited='rub';
+let reportCard='all';
+let currentView='operations';
+
+function cloneDefaults(){
+  return JSON.parse(JSON.stringify(defaults));
+}
+
+function normalizeData(saved){
+  const base=cloneDefaults();
+  const result={...base,...saved};
+
+  result.cards=Array.isArray(result.cards)
+    ?result.cards.filter(c=>typeof c==='string'&&c.trim())
+    :base.cards;
+
+  result.deals=Array.isArray(result.deals)?result.deals:[];
+  result.cardEmojis={
+    ...base.cardEmojis,
+    ...(saved.cardEmojis&&typeof saved.cardEmojis==='object'?saved.cardEmojis:{})
+  };
+
+  result.walletName=String(result.walletName||'Капитал');
+  result.walletAvatar=typeof result.walletAvatar==='string'?result.walletAvatar:'';
+  result.avatarChoice=String(result.avatarChoice||'▣');
+
+  // Старые продажи без карты относятся к первой карте,
+  // чтобы их можно было увидеть в карточной статистике.
+  result.deals=result.deals.map(d=>{
+    const deal={...d};
+    if(deal.mode==='sell'&&!deal.card&&result.cards.length){
+      deal.card=result.cards[0];
+    }
+    return deal;
+  });
+
+  return result;
+}
 
 function load(){
   try{
-    let saved=JSON.parse(localStorage.getItem(KEY));
-
+    const saved=JSON.parse(localStorage.getItem(KEY));
     if(saved&&Array.isArray(saved.cards)&&Array.isArray(saved.deals)){
-      return {
-        ...structuredClone(defaults),
-        ...saved,
-        cardEmojis:saved.cardEmojis||{}
-      };
+      return normalizeData(saved);
     }
-
-    return structuredClone(defaults);
-  }catch(e){
-    return structuredClone(defaults);
-  }
+  }catch(e){}
+  return cloneDefaults();
 }
 
 function persist(){
-  localStorage.setItem(KEY,JSON.stringify(data));
-  render();
+  try{
+    localStorage.setItem(KEY,JSON.stringify(data));
+    render();
+    return true;
+  }catch(e){
+    alert('Не удалось сохранить данные. Возможно, в хранилище браузера закончилось место.');
+    return false;
+  }
 }
 
 function num(v){
@@ -861,75 +930,82 @@ function fmt(v,d=2){
     maximumFractionDigits:d
   });
 }
-
 function rub(v){return fmt(v)+' ₽'}
 function usdt(v){return fmt(v)+' USDT'}
 
-function sortedDeals(deals=data.deals){
+function escapeHtml(value){
+  return String(value??'').replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[ch]);
+}
+
+function validDate(value){
+  const d=new Date(value);
+  return Number.isNaN(d.getTime())?new Date(0):d;
+}
+
+function sortedDeals(deals=data.deals,descending=false){
   return [...deals].sort((a,b)=>{
-    let diff=new Date(a.date)-new Date(b.date);
-    return diff||String(a.id).localeCompare(String(b.id));
+    const diff=validDate(a.date)-validDate(b.date);
+    if(diff!==0)return descending?-diff:diff;
+    const idDiff=String(a.id||'').localeCompare(String(b.id||''));
+    return descending?-idDiff:idDiff;
   });
 }
 
-function monthKey(date){
-  let d=new Date(date);
+function monthKey(value){
+  const d=validDate(value);
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
 }
 
 function monthName(key){
-  let [y,m]=key.split('-').map(Number);
-  return new Date(y,m-1,1).toLocaleDateString('ru-RU',{
-    month:'long',
-    year:'numeric'
+  const [y,m]=key.split('-').map(Number);
+  const value=new Date(y,m-1,1).toLocaleDateString('ru-RU',{
+    month:'long',year:'numeric'
   });
+  return value.charAt(0).toUpperCase()+value.slice(1);
 }
 
 function inPeriod(value){
-  if(period==='all')return true;
-  return monthKey(value)===selectedMonth;
+  return period==='all'||monthKey(value)===selectedMonth;
 }
 
-function setPeriod(p){
-  period=p;
+function getMonths(){
+  const months=new Set(data.deals.map(d=>monthKey(d.date)));
+  months.add(monthKey(new Date()));
+  return [...months].sort().reverse();
+}
 
-  if(p==='all'){
+function updatePeriodUI(){
+  const button=document.getElementById('periodButton');
+  button.innerHTML=(period==='all'?'Все месяцы':escapeHtml(monthName(selectedMonth)))+
+    ' <span class="arrow">⌄</span>';
+  document.getElementById('allPeriod').classList.toggle('active',period==='all');
+}
+
+function setPeriod(value){
+  if(value==='all'){
+    period='all';
     selectedMonth='';
-    document.getElementById('periodButton').innerHTML=
-      'Все месяцы　<span class="accent">⌄</span>';
   }else{
-    document.getElementById('periodButton').innerHTML=
-      escapeHtml(monthName(selectedMonth))+'　<span class="accent">⌄</span>';
+    period='month';
+    selectedMonth=value;
   }
-
-  document.getElementById('allPeriod').style.color=
-    p==='all'?'var(--yellow)':'#999';
-
+  updatePeriodUI();
   render();
 }
 
 function openPeriodPicker(){
-  let months=[...new Set(data.deals.map(d=>monthKey(d.date)))].sort().reverse();
-
-  if(!months.length){
-    alert('Пока нет операций для выбора месяца.');
-    return;
-  }
-
-  let select=document.getElementById('monthSelect');
+  const select=document.getElementById('monthSelect');
   select.innerHTML='';
-
-  months.forEach(m=>{
-    let option=document.createElement('option');
+  getMonths().forEach(m=>{
+    const option=document.createElement('option');
     option.value=m;
     option.textContent=monthName(m);
     select.appendChild(option);
   });
-
-  select.value=selectedMonth&&months.includes(selectedMonth)
-    ?selectedMonth
-    :months[0];
-
+  select.value=period==='month'&&getMonths().includes(selectedMonth)
+    ?selectedMonth:getMonths()[0];
   document.getElementById('periodModal').classList.add('show');
 }
 
@@ -938,27 +1014,44 @@ function closePeriodPicker(){
 }
 
 function applyMonth(){
-  selectedMonth=document.getElementById('monthSelect').value;
-  setPeriod('month');
+  const value=document.getElementById('monthSelect').value;
+  if(value)setPeriod(value);
   closePeriodPicker();
 }
 
-function showView(v,btn){
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
+function showView(view,button){
+  currentView=view;
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  const target=document.getElementById('view-'+view);
+  if(target)target.classList.add('active');
 
-  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
-  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.nav button').forEach(el=>el.classList.remove('active'));
+  if(button)button.classList.add('active');
+  else{
+    const navButton=document.querySelector('.nav button[data-view="'+view+'"]');
+    if(navButton)navButton.classList.add('active');
+  }
 
+  document.getElementById('operationsPeriods').style.display=
+    view==='operations'?'flex':'none';
+  document.getElementById('addButton').style.display=
+    view==='settings'?'none':'block';
+
+  document.getElementById('mainContent').scrollTop=0;
   render();
 }
 
 function showSettings(){
-  let btn=[...document.querySelectorAll('.nav button')].find(x=>x.textContent.includes('Настройки'));
-  showView('settings',btn);
+  showView('settings');
 }
 
 function openDeal(){
+  if(!data.cards.length){
+    alert('Сначала добавь хотя бы одну карту в настройках.');
+    showSettings();
+    return;
+  }
+
   editId=null;
   mode='buy';
   lastEdited='rub';
@@ -970,14 +1063,13 @@ function openDeal(){
   document.getElementById('comment').value='';
   document.getElementById('formError').textContent='';
   document.getElementById('calcHint').textContent=
-    'Введи сумму в рублях или USDT, затем курс. Второе поле рассчитается автоматически.';
+    'Введи сумму в рублях или USDT. При вводе курса второе поле пересчитается автоматически.';
 
-  let now=new Date(Date.now()-new Date().getTimezoneOffset()*60000);
+  const now=new Date(Date.now()-new Date().getTimezoneOffset()*60000);
   document.getElementById('dealDate').value=now.toISOString().slice(0,16);
 
   fillCardSelect();
   setMode('buy');
-
   document.getElementById('dealModal').classList.add('show');
 }
 
@@ -985,191 +1077,151 @@ function closeDeal(){
   document.getElementById('dealModal').classList.remove('show');
 }
 
-function setMode(m){
-  mode=m;
-
-  document.getElementById('buyTab').classList.toggle('active',m==='buy');
-  document.getElementById('sellTab').classList.toggle('active',m==='sell');
-  document.getElementById('buyFields').style.display=m==='buy'?'block':'none';
+function setMode(value){
+  mode=value;
+  document.getElementById('buyTab').classList.toggle('active',value==='buy');
+  document.getElementById('sellTab').classList.toggle('active',value==='sell');
+  document.getElementById('buyFields').style.display=value==='buy'?'block':'none';
   document.getElementById('formTitle').textContent=
-    m==='buy'?'Покупка USDT':'Продажа USDT';
+    value==='buy'?'Покупка USDT':'Продажа USDT';
   document.getElementById('formError').textContent='';
 }
 
-/*
-  Исправленный пересчёт:
-  запоминаем последнее поле, которое редактировал пользователь.
-  При вводе курса не затираем исходную сумму.
-*/
 function recalc(changed){
-  let rate=num(document.getElementById('rate').value);
-  let rubEl=document.getElementById('rub');
-  let usdtEl=document.getElementById('usdt');
+  const rate=num(document.getElementById('rate').value);
+  const rubEl=document.getElementById('rub');
+  const usdtEl=document.getElementById('usdt');
 
-  if(changed==='rub'){
-    lastEdited='rub';
+  if(changed==='rub'||changed==='usdt')lastEdited=changed;
 
-    if(rate>0&&rubEl.value.trim()!==''){
+  if(rate<=0)return;
+
+  if(lastEdited==='rub'){
+    if(rubEl.value.trim()!==''){
       usdtEl.value=fmt(num(rubEl.value)/rate,6);
-    }else if(rate<=0){
-      usdtEl.value='';
     }
-  }
-
-  if(changed==='usdt'){
-    lastEdited='usdt';
-
-    if(rate>0&&usdtEl.value.trim()!==''){
+  }else{
+    if(usdtEl.value.trim()!==''){
       rubEl.value=fmt(num(usdtEl.value)*rate,2);
-    }else if(rate<=0){
-      rubEl.value='';
-    }
-  }
-
-  if(changed==='rate'){
-    if(rate<=0)return;
-
-    if(lastEdited==='rub'){
-      if(rubEl.value.trim()!==''){
-        usdtEl.value=fmt(num(rubEl.value)/rate,6);
-      }
-    }else{
-      if(usdtEl.value.trim()!==''){
-        rubEl.value=fmt(num(usdtEl.value)*rate,2);
-      }
     }
   }
 }
 
-function fillCardSelect(){
-  let s=document.getElementById('dealCard');
-  s.innerHTML='';
+function fillCardSelect(selected){
+  const select=document.getElementById('dealCard');
+  select.innerHTML='';
 
-  data.cards.forEach(c=>{
-    let o=document.createElement('option');
-    o.value=c;
-    o.textContent=(data.cardEmojis[c]||'💳')+' '+c;
-    s.appendChild(o);
+  data.cards.forEach(card=>{
+    const option=document.createElement('option');
+    option.value=card;
+    option.textContent=(data.cardEmojis[card]||'💳')+' '+card;
+    select.appendChild(option);
   });
+
+  if(selected&&data.cards.includes(selected))select.value=selected;
 }
 
 function calculate(deals=data.deals){
-  let lots=[];
-  let salesProfit={};
-  let invalidSales={};
+  const lots=[];
+  const salesProfit={};
+  const invalidSales={};
   let totalBuy=0;
   let totalSell=0;
   let profit=0;
 
   for(const d of sortedDeals(deals)){
-    let q=Number(d.usdt)||0;
-    let rate=Number(d.rate)||0;
-
+    const q=Number(d.usdt)||0;
+    const rate=Number(d.rate)||0;
     if(q<=0||rate<=0)continue;
 
     if(d.mode==='buy'){
       lots.push({
-        id:d.id,
-        qty:q,
-        left:q,
-        rate,
-        card:d.card||'',
-        type:d.type||'grev',
-        date:d.date
+        id:d.id,qty:q,left:q,rate,
+        card:d.card||'',type:d.type||'grev',date:d.date
       });
-
       totalBuy+=q*rate;
       continue;
     }
 
     if(d.mode==='sell'){
-      let available=lots.reduce((s,l)=>s+l.left,0);
+      const available=lots.reduce((s,l)=>s+l.left,0);
 
-      if(q>available+1e-8){
+      if(q>available+1e-8||available<=0){
         invalidSales[d.id]=available;
         continue;
       }
 
-      if(available<=0){
-        invalidSales[d.id]=0;
-        continue;
-      }
+      const totalCost=lots.reduce((s,l)=>s+l.left*l.rate,0);
+      const averageCost=totalCost/available;
+      const cost=q*averageCost;
 
-      let totalCost=lots.reduce((s,l)=>s+l.left*l.rate,0);
-      let averageCost=totalCost/available;
-      let cost=q*averageCost;
-
-      let snapshots=lots.map(l=>({
-        lot:l,
-        before:l.left
-      }));
-
+      const snapshots=lots.map(l=>({lot:l,before:l.left}));
       let removed=0;
 
       snapshots.forEach((item,index)=>{
-        let take=index===snapshots.length-1
+        const take=index===snapshots.length-1
           ?q-removed
           :q*item.before/available;
-
-        take=Math.min(item.before,Math.max(0,take));
-        item.lot.left=Math.max(0,item.before-take);
-        removed+=take;
+        const actual=Math.min(item.before,Math.max(0,take));
+        item.lot.left=Math.max(0,item.before-actual);
+        removed+=actual;
       });
 
-      let p=q*rate-cost;
+      const p=q*rate-cost;
       salesProfit[d.id]=p;
       profit+=p;
       totalSell+=q*rate;
     }
   }
 
-  let balance=lots.reduce((s,l)=>s+l.left,0);
-  let cost=lots.reduce((s,l)=>s+l.left*l.rate,0);
+  const balance=lots.reduce((s,l)=>s+l.left,0);
+  const cost=lots.reduce((s,l)=>s+l.left*l.rate,0);
 
-  return {
-    lots,salesProfit,invalidSales,
-    profit,totalBuy,totalSell,
-    balance,cost
-  };
+  return {lots,salesProfit,invalidSales,profit,totalBuy,totalSell,balance,cost};
 }
 
 function saveDeal(){
-  let rate=num(document.getElementById('rate').value);
-  let q=num(document.getElementById('usdt').value);
-  let r=num(document.getElementById('rub').value);
-  let err=document.getElementById('formError');
+  const rate=num(document.getElementById('rate').value);
+  const q=num(document.getElementById('usdt').value);
+  const r=num(document.getElementById('rub').value);
+  const error=document.getElementById('formError');
+  const card=document.getElementById('dealCard').value;
 
   if(!(rate>0&&q>0)){
-    err.textContent='Укажи корректные курс и сумму.';
+    error.textContent='Укажи корректные курс и сумму.';
+    return;
+  }
+  if(!card||!data.cards.includes(card)){
+    error.textContent='Выбери карту.';
     return;
   }
 
-  if(mode==='buy'&&!data.cards.length){
-    err.textContent='Сначала добавь карту в настройках.';
+  const dateValue=document.getElementById('dealDate').value;
+  if(!dateValue||Number.isNaN(new Date(dateValue).getTime())){
+    error.textContent='Укажи корректную дату и время.';
     return;
   }
 
-  const d={
+  const deal={
     id:editId||('d'+Date.now()+Math.random().toString(16).slice(2)),
     mode,
     type:mode==='buy'?document.getElementById('buyType').value:'sell',
-    card:mode==='buy'?document.getElementById('dealCard').value:'',
+    card,
     rate,
     usdt:q,
     rub:r||q*rate,
-    date:document.getElementById('dealDate').value||new Date().toISOString(),
-    comment:document.getElementById('comment').value
+    date:dateValue,
+    comment:document.getElementById('comment').value.trim()
   };
 
-  let candidate=data.deals.filter(x=>x.id!==editId);
-  candidate.push(d);
+  const candidate=data.deals.filter(x=>x.id!==editId);
+  candidate.push(deal);
 
   if(mode==='sell'){
-    let test=calculate(candidate);
-
-    if(Object.prototype.hasOwnProperty.call(test.invalidSales,d.id)){
-      let available=test.invalidSales[d.id]||0;
-      err.textContent='Недостаточно USDT на эту дату. Доступно: '+fmt(available,6)+' USDT';
+    const test=calculate(candidate);
+    if(Object.prototype.hasOwnProperty.call(test.invalidSales,deal.id)){
+      error.textContent='Недостаточно USDT на эту дату. Доступно: '+
+        fmt(test.invalidSales[deal.id]||0,6)+' USDT.';
       return;
     }
   }
@@ -1180,125 +1232,124 @@ function saveDeal(){
 }
 
 function editDeal(id){
-  let d=data.deals.find(x=>x.id===id);
-  if(!d)return;
+  const deal=data.deals.find(x=>String(x.id)===String(id));
+  if(!deal)return;
 
-  openDeal();
-  editId=id;
-  mode=d.mode;
+  editId=deal.id;
+  mode=deal.mode;
+  lastEdited='rub';
+
+  document.getElementById('formTitle').textContent='Изменить операцию';
+  document.getElementById('rate').value=deal.rate;
+  document.getElementById('usdt').value=deal.usdt;
+  document.getElementById('rub').value=deal.rub;
+  document.getElementById('comment').value=deal.comment||'';
+  document.getElementById('dealDate').value=String(deal.date).slice(0,16);
+  document.getElementById('formError').textContent='';
+
+  fillCardSelect(deal.card);
+  document.getElementById('buyType').value=deal.type||'grev';
   setMode(mode);
 
-  document.getElementById('rate').value=d.rate;
-  document.getElementById('usdt').value=d.usdt;
-  document.getElementById('rub').value=d.rub;
-  document.getElementById('comment').value=d.comment||'';
-  document.getElementById('dealDate').value=String(d.date).slice(0,16);
-
-  // При редактировании сохраняем обе суммы как введённые.
-  lastEdited='usdt';
-
-  if(d.mode==='buy'){
-    fillCardSelect();
-    document.getElementById('dealCard').value=d.card;
-    document.getElementById('buyType').value=d.type;
-  }
+  document.getElementById('dealModal').classList.add('show');
 }
 
 function deleteDeal(id){
   if(!confirm('Удалить эту операцию?'))return;
-  data.deals=data.deals.filter(d=>d.id!==id);
+  data.deals=data.deals.filter(d=>String(d.id)!==String(id));
   persist();
 }
 
-function typeName(t){
+function typeName(type){
   return ({
     grev:'Грев',
     send:'Отправка перевода',
     receive:'Получение перевода'
-  })[t]||t;
+  })[type]||type;
 }
-
-function typeIcon(t){
-  return ({grev:'↗',send:'↘',receive:'↙'})[t]||'●';
+function typeIcon(type){
+  return ({grev:'↗',send:'↘',receive:'↙'})[type]||'●';
 }
 
 function render(){
-  let c=calculate();
-  let filtered=data.deals.filter(d=>inPeriod(d.date));
+  updatePeriodUI();
+  renderOperations();
+  renderMainReport();
+  renderStock();
+  renderReports();
+  renderSettings();
+}
 
-  let buys=filtered.filter(d=>d.mode==='buy');
-  let sells=filtered.filter(d=>d.mode==='sell');
+function renderOperations(){
+  const c=calculate();
+  const filtered=sortedDeals(data.deals.filter(d=>inPeriod(d.date)),true);
+  const buys=filtered.filter(d=>d.mode==='buy');
+  const sells=filtered.filter(d=>d.mode==='sell');
 
   document.getElementById('sumBought').textContent=
     usdt(buys.reduce((s,d)=>s+(Number(d.usdt)||0),0));
-
   document.getElementById('sumSold').textContent=
     usdt(sells.reduce((s,d)=>s+(Number(d.usdt)||0),0));
 
-  let fp=sells.reduce((s,d)=>s+(c.salesProfit[d.id]??0),0);
-  document.getElementById('sumProfit').textContent=rub(fp);
+  const periodProfit=sells.reduce((s,d)=>s+(c.salesProfit[d.id]??0),0);
+  document.getElementById('sumProfit').textContent=rub(periodProfit);
   document.getElementById('sumBalance').textContent=usdt(c.balance);
 
-  // История: сначала новые даты, затем старые.
-  let list=document.getElementById('dealList');
+  const list=document.getElementById('dealList');
   list.innerHTML='';
-
-  let grouped={};
-
-  [...filtered]
-    .sort((a,b)=>new Date(b.date)-new Date(a.date))
-    .forEach(d=>{
-      let key=new Date(d.date).toLocaleDateString('ru-RU',{
-        weekday:'long',
-        day:'numeric',
-        month:'long',
-        year:'numeric'
-      });
-
-      (grouped[key]??=[]).push(d);
-    });
-
-  document.getElementById('historyCount').textContent=
-    filtered.length+' операций';
+  document.getElementById('historyCount').textContent=filtered.length+' операций';
 
   if(!filtered.length){
     list.innerHTML='<div class="empty">Операций за этот период пока нет.<br>Нажми «＋», чтобы добавить первую.</div>';
+    return;
   }
 
-  Object.entries(grouped).forEach(([day,items])=>{
-    let label=document.createElement('div');
+  const groups=new Map();
+
+  filtered.forEach(d=>{
+    const date=validDate(d.date);
+    const key=date.getFullYear()+'-'+
+      String(date.getMonth()+1).padStart(2,'0')+'-'+
+      String(date.getDate()).padStart(2,'0');
+    if(!groups.has(key))groups.set(key,[]);
+    groups.get(key).push(d);
+  });
+
+  [...groups.entries()].sort((a,b)=>b[0].localeCompare(a[0])).forEach(([key,items])=>{
+    const [y,m,day]=key.split('-').map(Number);
+    const date=new Date(y,m-1,day);
+    const label=document.createElement('div');
     label.className='date-label';
-    label.textContent=day;
+    label.textContent=date.toLocaleDateString('ru-RU',{
+      weekday:'long',day:'numeric',month:'long',year:'numeric'
+    });
     list.appendChild(label);
 
-    items.forEach(d=>{
-      let isBuy=d.mode==='buy';
-      let invalid=!isBuy&&Object.prototype.hasOwnProperty.call(c.invalidSales,d.id);
-      let p=c.salesProfit[d.id]??0;
+    items.sort((a,b)=>{
+      const diff=validDate(b.date)-validDate(a.date);
+      return diff||String(b.id).localeCompare(String(a.id));
+    });
 
-      let el=document.createElement('div');
+    items.forEach(d=>{
+      const isBuy=d.mode==='buy';
+      const invalid=!isBuy&&Object.prototype.hasOwnProperty.call(c.invalidSales,d.id);
+      const p=c.salesProfit[d.id]??0;
+      const cardEmoji=data.cardEmojis[d.card]||'💳';
+
+      const el=document.createElement('div');
       el.className='deal';
 
-      let title=isBuy
-        ?'Покупка · '+typeName(d.type)
-        :'Продажа USDT';
+      const title=isBuy?'Покупка · '+typeName(d.type):'Продажа USDT';
+      const amount=(isBuy?'+':'−')+fmt(d.usdt)+' USDT';
 
-      let amount=(isBuy?'+':'−')+fmt(d.usdt)+' USDT';
-
-      let sub='';
-
-      if(isBuy){
-        sub=(data.cardEmojis[d.card]||'💳')+' '+escapeHtml(d.card||'');
-      }
-
-      sub+=(sub?' · ':'')+fmt(d.rate)+' ₽';
-      sub+=' · '+new Date(d.date).toLocaleTimeString('ru-RU',{
-        hour:'2-digit',
-        minute:'2-digit'
+      const time=validDate(d.date).toLocaleTimeString('ru-RU',{
+        hour:'2-digit',minute:'2-digit'
       });
 
+      let sub=cardEmoji+' '+escapeHtml(d.card||'Без карты');
+      sub+=' · '+fmt(d.rate)+' ₽';
+      sub+=' · '+time;
       if(d.comment)sub+=' · '+escapeHtml(d.comment);
-
       if(!isBuy){
         sub+=invalid
           ?' · <span class="negative">Недостаточно остатка</span>'
@@ -1307,41 +1358,178 @@ function render(){
 
       el.innerHTML=`
         <div class="deal-icon">${isBuy?typeIcon(d.type):'⇄'}</div>
-
         <div class="deal-main">
           <div class="deal-title">${escapeHtml(title)}</div>
           <div class="deal-sub">${sub}</div>
         </div>
-
         <div class="deal-amount ${isBuy?'positive':''}">${amount}</div>
-
-        <button class="close" style="width:30px;height:30px;font-size:13px"
-          onclick="editDeal('${escapeHtml(d.id)}')">✎</button>
-
-        <button class="close" style="width:30px;height:30px;font-size:13px"
-          onclick="deleteDeal('${escapeHtml(d.id)}')">×</button>
+        <button class="close" style="width:29px;height:29px;font-size:13px" aria-label="Изменить">✎</button>
+        <button class="close" style="width:29px;height:29px;font-size:13px" aria-label="Удалить">×</button>
       `;
 
+      const buttons=el.querySelectorAll('button');
+      buttons[0].addEventListener('click',()=>editDeal(d.id));
+      buttons[1].addEventListener('click',()=>deleteDeal(d.id));
       list.appendChild(el);
     });
   });
+}
 
-  // Общий отчёт
-  document.getElementById('rBuyUsdt').textContent=
-    usdt(data.deals.filter(d=>d.mode==='buy').reduce((s,d)=>s+d.usdt,0));
+function renderMainReport(){
+  const c=calculate();
+  const selected=data.deals.filter(d=>reportCard==='all'||d.card===reportCard);
+  const buys=selected.filter(d=>d.mode==='buy');
+  const sells=selected.filter(d=>d.mode==='sell');
 
-  document.getElementById('rSellUsdt').textContent=
-    usdt(data.deals.filter(d=>d.mode==='sell').reduce((s,d)=>s+d.usdt,0));
+  const buyQ=buys.reduce((s,d)=>s+(Number(d.usdt)||0),0);
+  const sellQ=sells.reduce((s,d)=>s+(Number(d.usdt)||0),0);
+  const buyRub=buys.reduce((s,d)=>s+(Number(d.rub)||0),0);
+  const sellRub=sells.reduce((s,d)=>s+(Number(d.rub)||0),0);
 
-  document.getElementById('rBuys').textContent=rub(c.totalBuy);
-  document.getElementById('rSells').textContent=rub(c.totalSell);
-  document.getElementById('rProfit').textContent=rub(c.profit);
-  document.getElementById('rBalance').textContent=usdt(c.balance);
+  const cardLots=c.lots.filter(l=>reportCard==='all'||l.card===reportCard);
+  const balance=cardLots.reduce((s,l)=>s+l.left,0);
+  const cost=cardLots.reduce((s,l)=>s+l.left*l.rate,0);
 
+  const profit=sells.reduce((s,d)=>s+(c.salesProfit[d.id]??0),0);
+
+  document.getElementById('reportTitle').textContent=
+    reportCard==='all'?'Общая статистика':'Статистика · '+reportCard;
+  document.getElementById('rBuyUsdt').textContent=usdt(buyQ);
+  document.getElementById('rSellUsdt').textContent=usdt(sellQ);
+  document.getElementById('rBuys').textContent=rub(buyRub);
+  document.getElementById('rSells').textContent=rub(sellRub);
+  document.getElementById('rProfit').textContent=rub(profit);
+  document.getElementById('rBalance').textContent=usdt(balance);
   document.getElementById('rAvgCost').textContent=
-    c.balance?fmt(c.cost/c.balance)+' ₽':'—';
+    balance?fmt(cost/balance)+' ₽ за USDT':'—';
+}
 
-  // Остатки
+const chartColors=['#ffc45d','#4e9bdb','#46b66a','#bd75db','#e77c66','#65c8c1'];
+
+function makeDonut(items,centerLabel){
+  const total=items.reduce((s,x)=>s+x.value,0);
+  const valid=items.filter(x=>x.value>0);
+  const colorList=valid.map(x=>x.color);
+  let position=0;
+
+  const segments=valid.map((item,i)=>{
+    const start=position;
+    position+=item.value/total*100;
+    return `${item.color} ${start}% ${position}%`;
+  }).join(',');
+
+  const background=total>0?'conic-gradient('+segments+')':'#383838';
+
+  let html=`
+    <div class="chart-donut" style="background:${background}">
+      <div class="chart-center">
+        ${fmt(total,0)} ₽
+        <small>${escapeHtml(centerLabel)}</small>
+      </div>
+    </div>
+  `;
+
+  if(!valid.length){
+    return html+'<div class="empty" style="padding:8px">Пока нет операций</div>';
+  }
+
+  html+='<div class="legend">';
+  valid.forEach(item=>{
+    const percent=item.value/total*100;
+    html+=`
+      <div class="legend-row">
+        <span class="legend-dot" style="background:${item.color}"></span>
+        <div class="legend-info">
+          <b>${escapeHtml(item.name)}</b>
+          <div class="small">${rub(item.value)} · ${fmt(item.usdt,4)} USDT</div>
+        </div>
+        <div class="legend-percent">${fmt(percent,1)}%</div>
+      </div>
+    `;
+  });
+  html+='</div>';
+  return html;
+}
+
+function getCardStats(card){
+  const deals=data.deals.filter(d=>card==='all'||d.card===card);
+
+  const income=deals.filter(d=>d.mode==='sell');
+  const expenses=deals.filter(d=>d.mode==='buy'&&d.type!=='grev');
+  const grev=deals.filter(d=>d.mode==='buy'&&d.type==='grev');
+
+  const sum=arr=>({
+    value:arr.reduce((s,d)=>s+(Number(d.rub)||0),0),
+    usdt:arr.reduce((s,d)=>s+(Number(d.usdt)||0),0)
+  });
+
+  const a=sum(income),b=sum(expenses),c=sum(grev);
+
+  return [
+    {name:'Доходы',value:a.value,usdt:a.usdt,color:'#46b66a'},
+    {name:'Расходы',value:b.value,usdt:b.usdt,color:'#e77c66'},
+    {name:'Грев',value:c.value,usdt:c.usdt,color:'#ffc45d'}
+  ];
+}
+
+function renderReports(){
+  const filter=document.getElementById('reportCardFilter');
+  filter.innerHTML='';
+
+  const choices=[{value:'all',label:'Все карты'},...data.cards.map(card=>({
+    value:card,label:(data.cardEmojis[card]||'💳')+' '+card
+  }))];
+
+  choices.forEach(item=>{
+    const button=document.createElement('button');
+    button.className='report-card-button'+(reportCard===item.value?' active':'');
+    button.textContent=item.label;
+    button.addEventListener('click',()=>{
+      reportCard=item.value;
+      renderReports();
+      renderMainReport();
+    });
+    filter.appendChild(button);
+  });
+
+  const container=document.getElementById('reportDonuts');
+  container.innerHTML='';
+
+  const cards=reportCard==='all'?['all']:[reportCard];
+
+  cards.forEach(card=>{
+    const stats=getCardStats(card);
+    const total=stats.reduce((s,x)=>s+x.value,0);
+
+    const block=document.createElement('div');
+    block.className='chart-block';
+
+    const heading=card==='all'
+      ?'Все карты'
+      :(data.cardEmojis[card]||'💳')+' '+card;
+
+    block.innerHTML=`
+      <div class="card-heading">
+        <div class="card-sticker">${card==='all'?'▦':escapeHtml(data.cardEmojis[card]||'💳')}</div>
+        <div>
+          ${escapeHtml(heading)}
+          <div class="small">Объём операций: ${rub(total)}</div>
+        </div>
+      </div>
+      <div class="chart-title">Доходы, расходы и грев</div>
+      ${makeDonut(stats,'Объём операций')}
+    `;
+
+    container.appendChild(block);
+  });
+
+  if(!data.cards.length){
+    container.innerHTML='<div class="empty">Добавь карты в настройках.</div>';
+  }
+}
+
+function renderStock(){
+  const c=calculate();
   document.getElementById('stockTotal').textContent=usdt(c.balance);
   document.getElementById('stockAvg').textContent=
     c.balance?fmt(c.cost/c.balance)+' ₽':'—';
@@ -1353,273 +1541,209 @@ function render(){
         <div>
           <b>${fmt(l.left,6)} USDT</b>
           <div class="small">
-            ${data.cardEmojis[l.card]||'💳'} ${escapeHtml(l.card)}
-            · ${typeName(l.type)}
-            · ${new Date(l.date).toLocaleDateString('ru-RU')}
+            ${escapeHtml(data.cardEmojis[l.card]||'💳')}
+            ${escapeHtml(l.card)}
+            · ${escapeHtml(typeName(l.type))}
+            · ${validDate(l.date).toLocaleDateString('ru-RU')}
           </div>
         </div>
         <b>${fmt(l.rate)} ₽</b>
       </div>
     `).join('')||'<div class="empty">Остатков пока нет</div>';
-
-  renderReports();
-  renderSettings();
 }
 
-const chartColors=[
-  '#ffc45d','#4e9bdb','#46b66a','#bd75db',
-  '#e77c66','#65c8c1','#e3a3d0','#a6b85b',
-  '#8a91e8','#d5a35e'
-];
+function renderAvatar(){
+  const avatar=document.getElementById('settingsAvatar');
+  const header=document.getElementById('headerAvatar');
 
-function makeDonut(items,totalLabel){
-  let total=items.reduce((s,x)=>s+x.value,0);
+  if(data.walletAvatar){
+    const safeSrc=data.walletAvatar;
+    avatar.innerHTML='';
+    const img=document.createElement('img');
+    img.src=safeSrc;
+    img.alt='Аватар кошелька';
+    avatar.appendChild(img);
 
-  let colors=items.map((x,i)=>chartColors[i%chartColors.length]);
-  let pos=0;
-
-  let segments=items.map((x,i)=>{
-    let start=pos;
-    pos+=total?x.value/total*100:0;
-    return `${colors[i]} ${start}% ${pos}%`;
-  }).join(',');
-
-  let gradient=total
-    ?`conic-gradient(${segments})`
-    :'#383838';
-
-  let html=`
-    <div class="chart-donut" style="background:${gradient}">
-      <div class="chart-center">
-        ${fmt(total,2)}
-        <small>${escapeHtml(totalLabel)}</small>
-      </div>
-    </div>
-  `;
-
-  if(!items.length||!total){
-    return html+'<div class="empty" style="padding:8px">Покупок пока нет</div>';
+    header.innerHTML='';
+    const headerImg=document.createElement('img');
+    headerImg.src=safeSrc;
+    headerImg.alt='';
+    header.appendChild(headerImg);
+  }else{
+    avatar.textContent=data.avatarChoice||'▣';
+    header.textContent=data.avatarChoice||'▣';
   }
-
-  html+='<div class="legend">';
-
-  items.forEach((item,i)=>{
-    let percent=item.value/total*100;
-
-    html+=`
-      <div class="legend-row">
-        <span class="legend-dot" style="background:${colors[i]}"></span>
-        <div class="legend-info">
-          <b>${escapeHtml(item.name)}</b>
-          <div class="small">${fmt(item.value)} USDT · ${rub(item.cost||0)}</div>
-        </div>
-        <div class="legend-percent">${fmt(percent,1)}%</div>
-      </div>
-    `;
-  });
-
-  html+='</div>';
-  return html;
-}
-
-function renderReports(){
-  // Общая диаграмма по картам
-  let overall=data.cards.map(card=>{
-    let ds=data.deals.filter(d=>d.mode==='buy'&&d.card===card);
-    let q=ds.reduce((s,d)=>s+(Number(d.usdt)||0),0);
-    let cost=ds.reduce((s,d)=>s+(Number(d.usdt)||0)*(Number(d.rate)||0),0);
-
-    return {
-      name:(data.cardEmojis[card]||'💳')+' '+card,
-      value:q,
-      cost
-    };
-  }).filter(x=>x.value>0);
-
-  document.getElementById('overallCardChart').innerHTML=
-    makeDonut(overall,'USDT');
-
-  // Отдельная диаграмма по каждой карте.
-  // Внутри карты показывается распределение покупок по типам.
-  let container=document.getElementById('individualCardCharts');
-  container.innerHTML='';
-
-  if(!data.cards.length){
-    container.innerHTML='<div class="empty">Добавь карту в настройках.</div>';
-    return;
-  }
-
-  data.cards.forEach(card=>{
-    let ds=data.deals.filter(d=>d.mode==='buy'&&d.card===card);
-
-    let q=ds.reduce((s,d)=>s+(Number(d.usdt)||0),0);
-    let cost=ds.reduce((s,d)=>s+(Number(d.usdt)||0)*(Number(d.rate)||0),0);
-    let average=q?cost/q:0;
-
-    let types=['grev','send','receive'];
-
-    let typeItems=types.map(t=>{
-      let td=ds.filter(d=>d.type===t);
-      let tq=td.reduce((s,d)=>s+(Number(d.usdt)||0),0);
-      let tc=td.reduce((s,d)=>s+(Number(d.usdt)||0)*(Number(d.rate)||0),0);
-
-      return {
-        name:typeName(t),
-        value:tq,
-        cost:tc
-      };
-    }).filter(x=>x.value>0);
-
-    let block=document.createElement('div');
-    block.className='chart-block';
-
-    block.innerHTML=`
-      <div class="card-heading">
-        <div class="card-sticker">${escapeHtml(data.cardEmojis[card]||'💳')}</div>
-        <div>
-          ${escapeHtml(card)}
-          <div class="small">${fmt(q)} USDT куплено</div>
-        </div>
-      </div>
-
-      <div class="statline">
-        <span>Сумма покупок</span>
-        <b>${rub(cost)}</b>
-      </div>
-
-      <div class="statline">
-        <span>Средняя цена покупки</span>
-        <b>${q?fmt(average)+' ₽':'—'}</b>
-      </div>
-
-      <div class="statline">
-        <span>Количество операций</span>
-        <b>${ds.length}</b>
-      </div>
-
-      <h3 style="margin-top:20px">Распределение по типам</h3>
-      ${makeDonut(typeItems,'USDT')}
-    `;
-
-    container.appendChild(block);
-  });
 }
 
 function renderSettings(){
-  document.getElementById('walletTitle').textContent=
-    data.walletName||'Капитал';
+  document.getElementById('walletTitle').textContent=data.walletName||'Капитал';
+  document.getElementById('settingsWalletName').textContent=data.walletName||'Капитал';
 
-  document.getElementById('settingsWalletName').textContent=
-    data.walletName||'Капитал';
-
-  document.getElementById('walletNameInput').value=
-    data.walletName||'Капитал';
-
-  let avatar=document.getElementById('settingsAvatar');
-  let headerAvatar=document.getElementById('headerAvatar');
-
-  if(data.walletAvatar){
-    avatar.innerHTML=`<img src="${data.walletAvatar}" alt="Аватар">`;
-    headerAvatar.innerHTML=`<img src="${data.walletAvatar}" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover">`;
-  }else{
-    avatar.textContent='▣';
-    headerAvatar.textContent='▣';
+  const nameInput=document.getElementById('walletNameInput');
+  if(document.activeElement!==nameInput){
+    nameInput.value=data.walletName||'Капитал';
   }
 
-  let cardsList=document.getElementById('cardsList');
+  renderAvatar();
+
+  const choices=document.getElementById('avatarChoices');
+  choices.innerHTML='';
+  builtInAvatars.forEach(emoji=>{
+    const button=document.createElement('button');
+    button.className='avatar-choice'+(
+      !data.walletAvatar&&data.avatarChoice===emoji?' active':''
+    );
+    button.type='button';
+    button.textContent=emoji;
+    button.title='Выбрать '+emoji;
+    button.addEventListener('click',()=>{
+      data.avatarAvatar='';
+      data.walletAvatar='';
+      data.avatarChoice=emoji;
+      persist();
+    });
+    choices.appendChild(button);
+  });
+
+  const cardsList=document.getElementById('cardsList');
   cardsList.innerHTML='';
 
+  const emojiOptions=['💳','🟢','🟡','🔵','🟣','⭐','💎','🏦','🦊','🌙','🔥','⚡','🐼','🌸','🚀'];
+
   data.cards.forEach((card,index)=>{
-    let block=document.createElement('div');
+    const block=document.createElement('div');
     block.className='card-edit';
 
-    let emojiOptions=['💳','🟢','🟡','🔵','🟣','⭐','💎','🏦','🦊','🌙','🔥','⚡'];
+    const top=document.createElement('div');
+    top.className='card-edit-top';
 
-    let options=emojiOptions.map(e=>
-      `<option value="${e}" ${data.cardEmojis[card]===e?'selected':''}>${e}</option>`
-    ).join('');
+    const emoji=document.createElement('select');
+    emoji.className='emoji-select';
+    emoji.id='cardEmoji'+index;
 
-    block.innerHTML=`
-      <div class="card-edit-top">
-        <select class="emoji-select" id="cardEmoji${index}">
-          ${options}
-        </select>
-        <input id="cardName${index}" value="${escapeHtml(card)}" maxlength="30">
-      </div>
+    emojiOptions.forEach(value=>{
+      const option=document.createElement('option');
+      option.value=value;
+      option.textContent=value;
+      emoji.appendChild(option);
+    });
+    emoji.value=data.cardEmojis[card]||'💳';
 
-      <div class="actions">
-        <button class="secondary" onclick="renameCard(${index})">Сохранить</button>
-        <button class="danger" onclick="deleteCard(${index})">Удалить</button>
-      </div>
-    `;
+    const input=document.createElement('input');
+    input.id='cardName'+index;
+    input.value=card;
+    input.maxLength=30;
+    input.placeholder='Название карты';
 
+    top.appendChild(emoji);
+    top.appendChild(input);
+
+    const actions=document.createElement('div');
+    actions.className='actions';
+
+    const save=document.createElement('button');
+    save.className='secondary';
+    save.textContent='Сохранить изменения';
+    save.addEventListener('click',()=>renameCard(index));
+
+    const remove=document.createElement('button');
+    remove.className='danger';
+    remove.textContent='Удалить';
+    remove.addEventListener('click',()=>deleteCard(index));
+
+    actions.appendChild(save);
+    actions.appendChild(remove);
+    block.appendChild(top);
+    block.appendChild(actions);
     cardsList.appendChild(block);
   });
+
+  if(!data.cards.length){
+    cardsList.innerHTML='<div class="empty">Пока нет карт. Добавь первую ниже.</div>';
+  }
 }
 
 function saveWalletSettings(){
-  let name=document.getElementById('walletNameInput').value.trim();
-
+  const name=document.getElementById('walletNameInput').value.trim();
   if(!name){
     alert('Введи название кошелька.');
     return;
   }
 
   data.walletName=name;
-  persist();
-  alert('Настройки кошелька сохранены.');
+  if(persist())alert('Профиль сохранён.');
 }
 
 function resetAvatar(){
   data.walletAvatar='';
-  persist();
+  data.avatarChoice='▣';
   document.getElementById('avatarFile').value='';
+  persist();
 }
 
-document.getElementById('avatarFile').addEventListener('change',function(e){
-  let file=e.target.files[0];
+function compressImage(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+
+    reader.onerror=()=>reject(new Error('Не удалось прочитать файл.'));
+    reader.onload=()=>{
+      const img=new Image();
+      img.onerror=()=>reject(new Error('Не удалось открыть изображение.'));
+      img.onload=()=>{
+        const maxSide=700;
+        const scale=Math.min(1,maxSide/Math.max(img.width,img.height));
+        const canvas=document.createElement('canvas');
+        canvas.width=Math.max(1,Math.round(img.width*scale));
+        canvas.height=Math.max(1,Math.round(img.height*scale));
+
+        const ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+        resolve(canvas.toDataURL('image/jpeg',0.82));
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+document.getElementById('avatarFile').addEventListener('change',async function(event){
+  const file=event.target.files[0];
   if(!file)return;
 
   if(!file.type.startsWith('image/')){
     alert('Выбери файл изображения.');
+    event.target.value='';
     return;
   }
 
-  if(file.size>3*1024*1024){
-    alert('Изображение должно быть меньше 3 МБ.');
-    e.target.value='';
-    return;
-  }
+  try{
+    const compressed=await compressImage(file);
+    const oldAvatar=data.walletAvatar;
+    data.walletAvatar=compressed;
+    data.avatarChoice='▣';
 
-  let reader=new FileReader();
-
-  reader.onload=()=>{
-    data.walletAvatar=reader.result;
-
-    try{
-      persist();
-    }catch(err){
-      alert('Не удалось сохранить изображение. Попробуй выбрать файл поменьше.');
-      data.walletAvatar='';
+    if(!persist()){
+      data.walletAvatar=oldAvatar;
+      render();
     }
-  };
+  }catch(error){
+    alert(error.message||'Не удалось обработать изображение.');
+  }
 
-  reader.readAsDataURL(file);
+  event.target.value='';
 });
 
 function renameCard(index){
-  let oldName=data.cards[index];
-  let input=document.getElementById('cardName'+index);
-  let emoji=document.getElementById('cardEmoji'+index);
-
-  let newName=input.value.trim();
+  const oldName=data.cards[index];
+  const input=document.getElementById('cardName'+index);
+  const emoji=document.getElementById('cardEmoji'+index);
+  const newName=input.value.trim();
 
   if(!newName){
     alert('Название карты не может быть пустым.');
     return;
   }
-
-  if(data.cards.some((c,i)=>i!==index&&c.toLowerCase()===newName.toLowerCase())){
+  if(data.cards.some((card,i)=>i!==index&&card.toLowerCase()===newName.toLowerCase())){
     alert('Карта с таким названием уже существует.');
     return;
   }
@@ -1628,113 +1752,109 @@ function renameCard(index){
   data.cardEmojis[newName]=emoji.value;
 
   if(oldName!==newName){
-    data.deals.forEach(d=>{
-      if(d.card===oldName)d.card=newName;
+    data.deals.forEach(deal=>{
+      if(deal.card===oldName)deal.card=newName;
     });
-
     delete data.cardEmojis[oldName];
   }
 
+  if(reportCard===oldName)reportCard=newName;
   persist();
 }
 
 function addCard(){
-  let input=document.getElementById('newCard');
-  let emoji=document.getElementById('newCardEmoji');
-
-  let name=input.value.trim();
+  const input=document.getElementById('newCard');
+  const emoji=document.getElementById('newCardEmoji');
+  const name=input.value.trim();
 
   if(!name){
     alert('Введи название карты.');
     return;
   }
-
-  if(data.cards.some(c=>c.toLowerCase()===name.toLowerCase())){
+  if(data.cards.some(card=>card.toLowerCase()===name.toLowerCase())){
     alert('Такая карта уже есть.');
     return;
   }
 
   data.cards.push(name);
   data.cardEmojis[name]=emoji.value;
-
   input.value='';
   persist();
 }
 
 function deleteCard(index){
-  let card=data.cards[index];
+  const card=data.cards[index];
+  if(!card)return;
 
   if(data.deals.some(d=>d.card===card)){
-    if(!confirm('У этой карты есть операции. Удалить карту из списка? Старые операции останутся в истории.')){
+    if(!confirm('У этой карты есть операции. Удалить карту из списка? Старые операции останутся в истории, но будут без карты.')){
       return;
     }
   }
 
   data.cards.splice(index,1);
+  delete data.cardEmojis[card];
+
+  data.deals.forEach(d=>{
+    if(d.card===card)d.card='';
+  });
+
+  if(reportCard===card)reportCard='all';
   persist();
 }
 
 function exportData(){
-  let blob=new Blob([JSON.stringify(data,null,2)],{
-    type:'application/json'
-  });
-
-  let a=document.createElement('a');
-  let url=URL.createObjectURL(blob);
-
-  a.href=url;
-  a.download='p2p-backup-'+new Date().toISOString().slice(0,10)+'.json';
-  a.click();
-
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download='p2p-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  link.click();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
-function importData(e){
-  let file=e.target.files[0];
+function importData(event){
+  const file=event.target.files[0];
   if(!file)return;
 
-  let reader=new FileReader();
-
+  const reader=new FileReader();
   reader.onload=()=>{
     try{
-      let x=JSON.parse(reader.result);
-
-      if(!Array.isArray(x.cards)||!Array.isArray(x.deals)){
-        throw Error();
+      const imported=JSON.parse(reader.result);
+      if(!Array.isArray(imported.cards)||!Array.isArray(imported.deals)){
+        throw new Error('Неверный формат');
       }
 
-      data={
-        ...structuredClone(defaults),
-        ...x,
-        cardEmojis:x.cardEmojis||{}
-      };
-
+      data=normalizeData(imported);
+      period='all';
+      selectedMonth='';
+      reportCard='all';
       persist();
       alert('Резервная копия загружена.');
-    }catch(err){
+    }catch(error){
       alert('Не удалось прочитать резервную копию.');
     }
   };
-
   reader.readAsText(file);
-  e.target.value='';
+  event.target.value='';
 }
 
 function clearAll(){
-  if(!confirm('Точно удалить все операции, карты и настройки?'))return;
+  if(!confirm('Точно удалить все операции, карты и настройки кошелька?'))return;
 
-  data=structuredClone(defaults);
+  data=cloneDefaults();
   period='all';
   selectedMonth='';
+  reportCard='all';
+
+  try{
+    localStorage.removeItem(KEY);
+    localStorage.setItem(KEY,JSON.stringify(data));
+  }catch(e){}
 
   setPeriod('all');
-  persist();
-
+  render();
   alert('Данные удалены.');
-}
-
-function openSettings(){
-  showSettings();
 }
 
 render();
